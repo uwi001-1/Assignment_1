@@ -1,10 +1,8 @@
 [
     {
-        "title": "The Witch",
-        "author": "Roald Dahl"
-    },
-    {
-        "title": "Alchemist",
-        "author": "Paul Caloe"
+        "Title": "To Kill a Mockingbird",
+        "Author": "Harper Lee",
+        "Genre": "Classic",
+        "ISBN": "978-0-06-112008-4"
     }
 ]
