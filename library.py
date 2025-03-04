@@ -50,7 +50,7 @@ class Library:
     def search_title(self):
         python_list, target = self.find_target()
         for i in range(len(python_list)):
-            if python_list[i]["title"].lower() == target:
+            if python_list[i]["Title"].lower() == target:
                 print("The book is in the list")
                 print(python_list[i])
                 break
@@ -63,7 +63,7 @@ class Library:
     def update_field(self):
         python_list, target = self.find_target()
         for i in range(len(python_list)):
-            if python_list[i]["title"].lower() == target:
+            if python_list[i]["Title"].lower() == target:
                 print("The book is in the list")
                 update = input("Enter which field you want to update:  ")   #if enter new field, it will add it as well
                 change = input("Enter what you want to change in that field:  ")   #value of the field
@@ -78,7 +78,7 @@ class Library:
     def delete_book(self):
         python_list, target = self.find_target()
         for i in range(len(python_list)):
-            if python_list[i]["title"].lower() == target:
+            if python_list[i]["Title"].lower() == target:
                 print("The book is in the list")
                 # chose = input("Enter field you want to delete:  ").strip().lower()
                 del python_list[i]
