@@ -33,14 +33,14 @@ class Library:
     
     def view_books(self):
         if self.books:
-            str_str = json.dumps(self.books, indent=4)
+            str_str = json.dumps(self.books, indent=4)  #to view the list in the JSON string method
             print(str_str)
         else:
-            print("No books available")
+            print("No books available")    #if the list is empty
             return
         
     def find_target(self):
-        try:
+        try:    #if in JSON string
             python_list = json.loads(str_str)
         except:      #if not in JSON string
             python_list = self.books
@@ -48,14 +48,14 @@ class Library:
         return python_list, target
 
     def search_title(self):
-        python_list, target = self.find_target()
+        python_list, target = self.find_target()   #call find_target and assign it's return values
         for i in range(len(python_list)):
-            if python_list[i]["Title"].lower() == target:
+            if python_list[i]["Title"].lower() == target:   #compare title's value to target
                 print("The book is in the list")
-                print(python_list[i])
+                print(python_list[i])   #print the book's value
                 break
             else:
-                if i < len(python_list) -1:
+                if i < len(python_list) -1:  #search through the list
                     continue
                 else:
                     print("The book is not in the list")
