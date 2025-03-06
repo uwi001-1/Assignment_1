@@ -5,6 +5,7 @@ import os
 class Library:
     def __init__(self):
         self.books = self.load_books()  #loads existing books at the beginning
+        self.book_id = 1      #initialize book ID
     
     def add_book(self):
         title = input("Enter the title of the book: ")
@@ -12,9 +13,16 @@ class Library:
         genre = input("Enter the genre of the book: ")
         Isbn = input("Enter the ISBN of the book: ")
         #create dictionary 
-        book = {"Title": title, "Author": author, "Genre": genre, "ISBN": Isbn}
+        book = {
+            "ID": self.book_id,
+            "Title": title, 
+            "Author": author, 
+            "Genre": genre, 
+            "ISBN": Isbn
+        }
         #adding the dictionary to the list 
         self.books.append(book)
+        self.book_id += 1     #increment the ID
         self.save_books()     #save to file after adding
 
     def save_books(self):
@@ -48,12 +56,16 @@ class Library:
         return python_list, target
 
     def search_title(self):
-        python_list, target = self.find_target()   #call find_target and assign it's return values
+        python_list, target = self.find_target()  #call find_target and assign it's return values
+        found = False
+
         for i in range(len(python_list)):
             if python_list[i]["Title"].lower() == target:   #compare title's value to target
-                print("The book is in the list")
+                if not found:
+                    print("The book is in the list")
+                    found = True
                 print(python_list[i])   #print the book's value
-                break
+                continue
             else:
                 if i < len(python_list) -1:  #search through the list
                     continue
