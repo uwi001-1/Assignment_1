@@ -74,9 +74,14 @@ class Library:
 
     def update_field(self):
         python_list, target = self.find_target()
+        found = False
+        
         for i in range(len(python_list)):
             if python_list[i]["Title"].lower() == target:
-                print("The book is in the list")
+                if not found:
+                    print("The book is in the list")
+                    found = True
+                
                 update = input("Enter which field you want to update:  ")   #if enter new field, it will add it as well
                 change = input("Enter what you want to change in that field:  ")   #value of the field
                 python_list[i][update] = change
