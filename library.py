@@ -5,8 +5,13 @@ import os
 class Library:
     def __init__(self):
         self.books = self.load_books()  #loads existing books at the beginning
-        self.book_id = 1      #initialize book ID
+        self.book_id = self.get_next_id()     #initialize book ID
     
+    def get_next_id(self):
+        if self.books:    #checks if there are any books in the list
+            return max(book["ID"] for book in self.books) + 1  #max helps find the highest ID
+        return 1    #if no books, then start from 1
+
     def add_book(self):
         title = input("Enter the title of the book: ")
         author = input("Enter the author of the book: ")
@@ -48,62 +53,97 @@ class Library:
             return
         
     def find_target(self):
-        try:    #if in JSON string
+        try:    #if in JSON string, convert to list
             python_list = json.loads(str_str)
         except:      #if not in JSON string
-            python_list = self.books
+            python_list = self.books 
         target = input("Enter the title of the book: ").strip().lower()
         return python_list, target
 
     def search_title(self):
-        python_list, target = self.find_target()  #call find_target and assign it's return values
-        found = False
+        python_list, target = self.find_target()  # Get book list and target title
+        found_books = []  # List to store matching books
 
-        for i in range(len(python_list)):
-            if python_list[i]["Title"].lower() == target:   #compare title's value to target
-                if not found:
-                    print("The book is in the list")
-                    found = True
-                print(python_list[i])   #print the book's value
-                continue
-            else:
-                if i < len(python_list) -1:  #search through the list
-                    continue
-                else:
-                    print("The book is not in the list")
+        for book in python_list:
+            if book["Title"].lower() == target:  # Compare title's value to target
+                found_books.append(book)  # Store matching books
+
+        if found_books:
+            print("The book is in the list")  # Print only once
+            for book in found_books:
+                print(book)  # Print each matching book
+        else:
+            print("The book is not in the list")  # If no book matches
 
     def update_field(self):
         python_list, target = self.find_target()
-        found = False
+        found_books = []
         
-        for i in range(len(python_list)):
-            if python_list[i]["Title"].lower() == target:
-                if not found:
-                    print("The book is in the list")
-                    found = True
+        for i, book in enumerate(python_list):
+            if book["Title"].lower() == target:
+                found_books.append((i,book))
+
+        if not found_books:
+            print("The book is not in the list")
+            return
                 
-                update = input("Enter which field you want to update:  ")   #if enter new field, it will add it as well
-                change = input("Enter what you want to change in that field:  ")   #value of the field
-                python_list[i][update] = change
-                break
-            else:
-                if i < len(python_list) -1:
-                    continue
+                #Show all matching books
+        print(f"Found {len(found_books)} book(s) with the title '{target}':")
+        #i---actual index of python_list       book is dictionary
+        for ab, (i, book) in enumerate(found_books, start=1):
+            print(f"{ab}. {book}")  # Numbered list for user choice
+                
+        while True:
+            try:
+                choice = int(input("Enter the number of the book you want to update: ")) - 1
+                if 0 <= choice and choice < len(found_books): 
+                    update = input("Enter which field you want to update:  ").strip()
+                    
+                    if update == "ID":     #prevent ID from being updated
+                        print("You cannot update the ID field!")
+                        continue   
+
+                    if update in book:
+                        change = input(f"Enter the new value for {update}: ").strip()  #value of the field
+                        book[update] = change
+                        return
+                    else:
+                        print("Invalid Field! Enter existing field.")
                 else:
-                    print("The book is not in the list")
+                    print("Invalid choice. PLease enter a valid number.")
+            except ValueError:
+                print("Invalid input. Please enter a number")   
 
     def delete_book(self):
         python_list, target = self.find_target()
-        for i in range(len(python_list)):
-            if python_list[i]["Title"].lower() == target:
-                print("The book is in the list")
-                # chose = input("Enter field you want to delete:  ").strip().lower()
-                del python_list[i]
-                break
-            else:
-                if i < len(python_list) -1:
-                    continue
+        found_books = []  # List to store matching books
+
+        for i, book in enumerate(python_list):  #Loop through books with index
+            if book["Title"].lower() == target:
+                found_books.append((i, book))  #Store index and book data
+
+        if not found_books:
+            print("The book is not in the list")
+            return  # Exit function if no books found
+
+    #Show all matching books
+        print(f"Found {len(found_books)} book(s) with the title '{target}':")
+        #i---actual index of python_list       book is dictionary
+        for ab, (i, book) in enumerate(found_books, start=1):
+            print(f"{ab}. {book}")  # Numbered list for user choice
+
+    #Choose which book to delete
+        while True:
+            try:
+                choice = int(input("Enter the number of the book you want to delete: ")) - 1
+                if 0 <= choice and choice < len(found_books):      #Ensure valid choice
+                    del python_list[found_books[choice][0]]        #Delete selected book
+                    #choice--found_books' index   and 0--python_list's index 
+                    print("DELETED THE BOOK")
+                    return 
                 else:
-                    print("The book is not in the list")
+                    print("Invalid choice. Please enter a valid number.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
 take = Library()

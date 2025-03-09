@@ -48,3 +48,64 @@ class Library:
 library = Library()
 library.add_book()
 library.view_books()
+
+
+def search_title(self):
+        python_list, target = self.find_target()  #call find_target and assign it's return values
+        found = False
+
+        for i in range(len(python_list)):
+            if python_list[i]["Title"].lower() == target:   #compare title's value to target
+                if not found:
+                    print("The book is in the list")
+                    found = True
+                print(python_list[i])   #print the book's value
+                continue
+            else:
+                if i < len(python_list) -1:  #search through the list
+                    continue
+                else:
+                    print("The book is not in the list")
+
+def delete_book(self):
+        python_list, target = self.find_target()
+        for i in range(len(python_list)):
+            if python_list[i]["Title"].lower() == target:
+                print("The book is in the list")
+                # chose = input("Enter field you want to delete:  ").strip().lower()
+                del python_list[i]
+                break
+            else:
+                if i < len(python_list) -1:
+                    continue
+                else:
+                    print("The book is not in the list")
+
+    def update_field(self):
+        python_list, target = self.find_target()
+        found = False
+        
+        for i in range(len(python_list)):
+            if python_list[i]["Title"].lower() == target:
+                if not found:
+                    print("The book is in the list")
+                    found = True
+                
+                while True:
+                    update = input("Enter which field you want to update:  ").strip()
+                    
+                    if update == "ID":     #prevent ID from being updated
+                        print("You cannot update the ID field!")
+                        continue   
+
+                    if update in python_list[i]:
+                        change = input(f"Enter the new value for {update}: ").strip()  #value of the field
+                        python_list[i][update] = change
+                        return
+                    else:
+                        print("Invalid Field! Enter existing field.")
+            else:
+                if i < len(python_list) -1:
+                    continue
+                else:
+                    print("The book is not in the list")          
