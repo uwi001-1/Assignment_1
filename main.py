@@ -3,7 +3,7 @@ import book
 
 while True:
     try:
-        action = int(input("Add/ View/ Search/ Update/ Delete/ Stop (in numbers):  "))
+        action = int(input("1  Add\n2  View\n3  Search\n4  Update\n5  Delete\n6  Stop \nEnter number :  "))
         if action == 6:
             library.take.save_books()
             print("THE PROGRAM IS STOPPED")
@@ -32,6 +32,6 @@ while True:
             library.take.save_books()
     
         else:
-            print("Invalid Input")
+            print("Invalid Input ")
     except ValueError:
         print("Invalid Input. Enter a number.")

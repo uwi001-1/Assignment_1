@@ -125,14 +125,13 @@ class Library:
         if not found_books:
             print("The book is not in the list")
             return  # Exit function if no books found
-
-    #Show all matching books
+        #Show all matching books
         print(f"Found {len(found_books)} book(s) with the title '{target}':")
         #i---actual index of python_list       book is dictionary
         for ab, (i, book) in enumerate(found_books, start=1):
             print(f"{ab}. {book}")  # Numbered list for user choice
 
-    #Choose which book to delete
+        #Choose which book to delete
         while True:
             try:
                 choice = int(input("Enter the number of the book you want to delete: ")) - 1
